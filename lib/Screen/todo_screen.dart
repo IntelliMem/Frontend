@@ -52,27 +52,30 @@ class _TodoScreenState extends State<TodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SearchHeadWidget(
-            label: 'TO DO',
-          ),
-          Column(
-            children: addList.map((item) {
-              return AddTodoList(
-                work: item.work,
-                timestamp: item.timestamp,
-                onDelete: deleteItem,
-                onAdd: addItem,
-              );
-            }).toList(),
-          ),
-          TodoList(
-            userId: widget.userId,
-            list: list,
-          ),
-        ],
+    return Scaffold(
+      backgroundColor: Color(0xffF9F9F9),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SearchHeadWidget(
+              label: 'TO DO',
+            ),
+            Column(
+              children: addList.map((item) {
+                return AddTodoList(
+                  work: item.work,
+                  timestamp: item.timestamp,
+                  onDelete: deleteItem,
+                  onAdd: addItem,
+                );
+              }).toList(),
+            ),
+            TodoList(
+              userId: widget.userId,
+              list: list,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imagine_cup/Screen/calendar_screen.dart';
 import 'package:imagine_cup/Screen/search_screen.dart';
 import 'package:imagine_cup/Screen/todo_screen.dart';
 
@@ -24,7 +25,7 @@ class _HomeState extends State<Home> {
       TodoScreen(userId: widget.userId),
       SearchScreen(userId: widget.userId),
       SearchScreen(userId: widget.userId),
-      SearchScreen(userId: widget.userId),
+      CalendarScreen(userId: widget.userId),
       SearchScreen(userId: widget.userId),
     ];
   }
@@ -38,6 +39,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffF9F9F9),
       body: pages[_selectedIndex],
       drawer: Drawer(
         child: ListView(
@@ -87,7 +89,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xffF9F9F9),
         selectedItemColor: const Color(0xff469D7B),
         unselectedItemColor: const Color(0xff757575),
         showSelectedLabels: true,
