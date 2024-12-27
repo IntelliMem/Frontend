@@ -2,22 +2,47 @@
 import 'package:speech_to_text/speech_to_text.dart';
 
 class MicController {
-  SpeechToText _speechToText = SpeechToText();
+  static final MicController _instance = MicController._internal();
+  final SpeechToText _speechToText = SpeechToText();
+  bool _isInitialized = false;
+  bool _isListening = false;
+  String _recognizedText = "";
 
-  MicController() {
-    initializeTts();
+  factory MicController() {
+    return _instance;
   }
 
- void initializeTts() async {
-    await _speechToText.initialize();
+  MicController._internal();
+
+  Future<void> initializeTts() async {
+    if (!_isInitialized) {
+      _isInitialized = await _speechToText.initialize();
+    }
   }
 
   void startListening() {
-    _speechToText.listen(
-      onResult: (result) {
-        print(result.recognizedWords);
-      },
-    );
+    if (_isInitialized && !_isListening){
+      _isListening=true;
+      _recognizedText="";
+      _speechToText.listen(
+        onResult: (result) {
+          _recognizedText+=result.recognizedWords;
+        },
+      );
+    }
   }
+
+  String stopListening() {
+    if (_isInitialized && _isListening) {
+      _isListening = false;
+      _speechToText.stop();
+      print("final: "+_recognizedText);
+      return _recognizedText;
+    }
+    return "";
+  }
+
+  bool get isListening => _isListening;
+
 }
 

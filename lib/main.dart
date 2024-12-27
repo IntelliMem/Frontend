@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(),
         body: SearchScreen(userId: "userID"),
-
       ),
     );
   }
