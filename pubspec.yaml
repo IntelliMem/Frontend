@@ -33,7 +33,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   carousel_slider: ^5.0.0
   smooth_page_indicator: ^1.2.0
-#  speech_to_text: ^7.0.0
+  speech_to_text: ^7.0.0
 #  flutter_tts: ^4.2.1
 
 
