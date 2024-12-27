@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imagine_cup/Screen/search_screen.dart';
+import 'package:imagine_cup/Screen/todo_screen.dart';
 
 class Home extends StatefulWidget {
   final int pageIndex;
@@ -20,11 +21,11 @@ class _HomeState extends State<Home> {
     _selectedIndex = widget.pageIndex;
 
     pages = <Widget>[
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
+      TodoScreen(userId: widget.userId),
+      SearchScreen(userId: widget.userId),
+      SearchScreen(userId: widget.userId),
+      SearchScreen(userId: widget.userId),
+      SearchScreen(userId: widget.userId),
     ];
   }
 

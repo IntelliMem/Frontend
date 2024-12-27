@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'mic_widget.dart';
 
 class SearchHeadWidget extends StatelessWidget {
-  const SearchHeadWidget({super.key});
+  final String label;
+  const SearchHeadWidget({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +13,15 @@ class SearchHeadWidget extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20.h),
       color: const Color(0xff469D7B),
       child: Column(
-        mainAxisSize: MainAxisSize.min,  // min 설정을 통해서 overflow 막음
+        mainAxisSize: MainAxisSize.min, // min 설정을 통해서 overflow 막음
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top:0.h,left: 20.w, bottom: 20.h),
+                margin: EdgeInsets.only(top: 0.h, left: 20.w, bottom: 20.h),
                 child: Text(
-                  'Search',
+                  label,
                   style: TextStyle(
                       fontSize: 30.sp,
                       fontWeight: FontWeight.w700,
