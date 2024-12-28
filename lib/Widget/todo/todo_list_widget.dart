@@ -70,7 +70,7 @@ class _WorkComponentState extends State<WorkComponent> {
     return Container(
       width: Util.getWidgetSize(6 / 9),
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.fromLTRB(30, 5, 0, 5),
+      margin: const EdgeInsets.fromLTRB(20, 5, 0, 5),
       decoration: BoxDecoration(
         color: widget.containerColor,
         borderRadius: BorderRadius.circular(10.r),
@@ -94,7 +94,7 @@ class _WorkComponentState extends State<WorkComponent> {
                   formattedTime,
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                   ),
                 ),
               ],
