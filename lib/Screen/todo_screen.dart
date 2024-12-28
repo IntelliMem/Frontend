@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:imagine_cup/Widget/search_header.dart';
 import 'package:imagine_cup/Widget/todo/add_todo_list.dart';
 import 'package:imagine_cup/Widget/todo/todo_item.dart';
 import 'package:imagine_cup/Widget/todo/todo_list.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 class TodoScreen extends StatefulWidget {
   String userId;
@@ -37,6 +41,31 @@ class _TodoScreenState extends State<TodoScreen> {
         timestamp: DateTime.now().subtract(Duration(days: 2))),
   ];
 
+  late TextEditingController controller = TextEditingController();
+
+  // List<TodoItem> list = [];
+  // int id = 1;
+  // Future<void> fetchTodoList() async {
+  //   try {
+  //     final response = await http.get(
+  //       Uri.parse('${dotenv.env['API_URL']}/api/v1/todo?userId=$id'),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       List<dynamic> data = jsonDecode(response.body);
+  //       print('Fetched data: $data');
+
+  //       setState(() {
+  //         list = data.map((item) => TodoItem.fromJson(item)).toList();
+  //       });
+  //     } else {
+  //       throw Exception('Failed to load todos');
+  //     }
+  //   } catch (e) {
+  //     print('Error while fetching todos: $e');
+  //   }
+  // }
+
   void deleteItem(TodoItem item) {
     setState(() {
       addList.removeWhere(
@@ -51,6 +80,12 @@ class _TodoScreenState extends State<TodoScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // fetchTodoList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
@@ -59,6 +94,7 @@ class _TodoScreenState extends State<TodoScreen> {
           children: [
             SearchHeadWidget(
               label: 'TO DO',
+              controller: controller,
             ),
             Column(
               children: addList.map((item) {

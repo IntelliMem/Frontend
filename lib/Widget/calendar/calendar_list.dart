@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:imagine_cup/Widget/calendar/calendar_work.dart';
 import 'package:imagine_cup/Widget/todo/todo_item.dart';
+import 'package:imagine_cup/controller/date_controller.dart';
 import 'package:imagine_cup/util.dart';
 
 class CalendarList extends StatefulWidget {
@@ -23,41 +24,10 @@ class CalendarList extends StatefulWidget {
 }
 
 class _CalendarListState extends State<CalendarList> {
-  String getDayOfWeek(int weekday) {
-    const days = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
-    return days[weekday - 1];
-  }
-
-  String getMonthName(int month) {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return months[month - 1];
-  }
-
   @override
   Widget build(BuildContext context) {
-    final dayOfWeek = getDayOfWeek(widget.timeStamp.weekday);
-    final monthName = getMonthName(widget.timeStamp.month);
+    final dayOfWeek = DateUtil.getDayOfWeek(widget.timeStamp.weekday);
+    final monthName = DateUtil.getMonthName(widget.timeStamp.month);
     final day = widget.timeStamp.day;
     double containerHeight = ScreenUtil().setHeight(200);
 
@@ -70,7 +40,7 @@ class _CalendarListState extends State<CalendarList> {
         height: containerHeight,
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Color(0xffE7F3EE),
+          color: const Color(0xffE7F3EE),
           borderRadius: BorderRadius.circular(5.r),
         ),
         child: Column(

@@ -6,7 +6,9 @@ import '../Widget/category_widget.dart';
 class SearchScreen extends StatelessWidget {
   final String _userId;
 
-  const SearchScreen({super.key, required String userId}) : _userId = userId;
+  SearchScreen({super.key, required String userId}) : _userId = userId;
+
+  late TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,7 @@ class SearchScreen extends StatelessWidget {
       children: [
         SearchHeadWidget(
           label: 'Search',
+          controller: controller,
         ),
         Expanded(
           child: SingleChildScrollView(
