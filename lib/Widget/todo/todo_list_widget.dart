@@ -8,11 +8,14 @@ class TodoListWidget extends StatelessWidget {
   final String work;
   final DateTime timestamp;
   final int version;
-  const TodoListWidget(
-      {super.key,
-      required this.work,
-      required this.timestamp,
-      required this.version});
+  final VoidCallback onDelete;
+  const TodoListWidget({
+    super.key,
+    required this.work,
+    required this.timestamp,
+    required this.version,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,7 @@ class TodoListWidget extends StatelessWidget {
             timestamp: timestamp,
             containerColor: containerColor,
             textColor: textColor,
+            onDelete: onDelete,
           ),
         ],
       ),
@@ -48,6 +52,7 @@ class WorkComponent extends StatefulWidget {
   final DateTime timestamp;
   final Color containerColor;
   final Color textColor;
+  final VoidCallback onDelete;
 
   const WorkComponent({
     super.key,
@@ -55,6 +60,7 @@ class WorkComponent extends StatefulWidget {
     required this.timestamp,
     required this.containerColor,
     required this.textColor,
+    required this.onDelete,
   });
 
   @override
@@ -63,55 +69,83 @@ class WorkComponent extends StatefulWidget {
 
 class _WorkComponentState extends State<WorkComponent> {
   bool isIconClicked = false;
+  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     String formattedTime = DateFormat('HH:mm').format(widget.timestamp);
-    return Container(
-      width: Util.getWidgetSize(6 / 9),
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.fromLTRB(20, 5, 0, 5),
-      decoration: BoxDecoration(
-        color: widget.containerColor,
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.work,
-                  style: TextStyle(
-                    color: widget.textColor,
+    return GestureDetector(
+      onLongPress: widget.onDelete,
+      onTapDown: (_) {
+        setState(() {
+          isPressed = true;
+        });
+      },
+      onTapUp: (_) {
+        setState(() {
+          isPressed = false;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          isPressed = false;
+        });
+      },
+      child: Container(
+        width: Util.getWidgetSize(6 / 9),
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.fromLTRB(20, 5, 0, 5),
+        decoration: BoxDecoration(
+          color: widget.containerColor,
+          borderRadius: BorderRadius.circular(10.r),
+          boxShadow: isPressed
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
                   ),
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
-                ),
-                SizedBox(height: 4),
-                Text(
-                  formattedTime,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12.sp,
+                ]
+              : [],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.work,
+                    style: TextStyle(
+                      color: widget.textColor,
+                    ),
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 4),
+                  Text(
+                    formattedTime,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isIconClicked = !isIconClicked;
-              });
-            },
-            child: Icon(
-              isIconClicked ? Icons.check_box : Icons.crop_square_outlined,
-              color: widget.textColor,
+            InkWell(
+              onTap: () {
+                setState(() {
+                  isIconClicked = !isIconClicked;
+                });
+              },
+              child: Icon(
+                isIconClicked ? Icons.check_box : Icons.crop_square_outlined,
+                color: widget.textColor,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -125,7 +159,7 @@ class TodoCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: Column(
         children: [
           Container(

@@ -18,6 +18,12 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+  void deleteItem(TodoItem item) {
+    setState(() {
+      widget.list.remove(item); // 리스트에서 해당 항목 제거
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,6 +54,7 @@ class _TodoListState extends State<TodoList> {
               work: todoItem.work,
               version: version,
               timestamp: todoItem.timestamp,
+              onDelete: () => deleteItem(todoItem),
             );
           }).toList(),
         ],
