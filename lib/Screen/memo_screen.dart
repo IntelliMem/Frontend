@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:imagine_cup/Widget/green_header.dart';
 import 'package:imagine_cup/Widget/memo_widget.dart';
-
 import '../Widget/photo_widget.dart';
 
 class MemoScreen extends StatelessWidget {
@@ -19,21 +18,26 @@ class MemoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          GreenHeader(title: title),
-          Padding(
-            padding: EdgeInsets.all(10.w),
-            child: Column(
-              children: [
-                if(_hasPhoto==true)
-                  PhotoWidget(),
-                TextMemoWidget(memo: memo),
-              ],
-            )
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xff469D7B),
+        elevation: 0,
+      ),
+      backgroundColor: const Color(0xffF8F8F8),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GreenHeader(title: title),
+            Padding(
+                padding: EdgeInsets.all(10.w),
+                child: Column(
+                  children: [
+                    if (_hasPhoto == true) PhotoWidget(),
+                    MemoWidget(memo: memo),
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }

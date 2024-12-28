@@ -18,12 +18,12 @@ class GreenHeader extends StatelessWidget {
           bottomLeft: Radius.circular(15.r),
           bottomRight: Radius.circular(15.r),
         ),
-        boxShadow: [
+        boxShadow:  [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Color(0x33000000),
             spreadRadius: 1,
             blurRadius: 4,
-            offset: const Offset(0, 3),
+            offset: Offset(0, 3),
           ),
         ],
       ),

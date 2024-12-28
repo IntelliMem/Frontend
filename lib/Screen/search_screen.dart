@@ -12,28 +12,22 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchHeadWidget(),
+        SearchHeader(),
         Expanded(
           child: SingleChildScrollView(
-            child: Container(
-              color: const Color(0xffF8F8F8),
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height, // 최소 높이를 화면 전체로 설정
-              ),
-              child: Column(
-                children: [
-                  CategoryWidget(
-                    color: const Color(0xffF37676),
-                    categoryName: "Me",
-                    categoryImage: 'assets/MeIcon.png',
-                  ),
-                  CategoryWidget(
-                    color: const Color(0xffF9A369),
-                    categoryName: "Family",
-                    categoryImage: 'assets/FamilyIcon.png',
-                  ),
-                ],
-              ),
+            child: Column(
+              children: [
+                CategoryWidget(
+                  color: const Color(0xffF37676),
+                  categoryName: "Me",
+                  categoryImage: 'assets/MeIcon.png',
+                ),
+                CategoryWidget(
+                  color: const Color(0xffF9A369),
+                  categoryName: "Family",
+                  categoryImage: 'assets/FamilyIcon.png',
+                ),
+              ],
             ),
           ),
         ),

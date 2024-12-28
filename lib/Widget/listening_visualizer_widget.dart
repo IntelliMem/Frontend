@@ -9,7 +9,7 @@ class ListeningVisualizerWidget extends StatefulWidget {
   const ListeningVisualizerWidget({super.key, required this.onStop});
 
   @override
-  _ListeningVisualizerWidgetState createState() => _ListeningVisualizerWidgetState();
+  State<ListeningVisualizerWidget> createState() => _ListeningVisualizerWidgetState();
 }
 
 class _ListeningVisualizerWidgetState extends State<ListeningVisualizerWidget> {
@@ -29,7 +29,7 @@ class _ListeningVisualizerWidgetState extends State<ListeningVisualizerWidget> {
         Container(
           padding: EdgeInsets.only(bottom:10.h, right: 5.w),
           height: 50.h,
-          width: 50.w,
+          width: 80.w,
           child: ClipRect(
             child: AnimatedWaveList(
               stream: _amplitudeStream,
@@ -41,21 +41,27 @@ class _ListeningVisualizerWidgetState extends State<ListeningVisualizerWidget> {
             ),
           ),
         ),
-        MicWidget(
-          onMicTap: widget.onStop,
-          isListening: false,
-        ),
         Container(
-          padding: EdgeInsets.only(bottom:10.h,left: 5.w),
-          height: 50.h,
-          width: 50.w,
-          child: ClipRect(
-            child: AnimatedWaveList(
-              stream: _amplitudeStream,
-              barBuilder: (animation, amplitude) => WaveFormBar(
-                animation: animation,
-                amplitude: amplitude,
-                color: Colors.white,
+          margin: EdgeInsets.only(bottom: 10.h),
+          child: MicWidget(
+            onMicTap: widget.onStop,
+            isListening: false,
+          ),
+        ),
+        Transform.rotate(
+          angle: 3.14159,
+          child: Container(
+            padding: EdgeInsets.only(top: 10.h, right: 5.w),
+            height: 50.h,
+            width: 80.w,
+            child: ClipRect(
+              child: AnimatedWaveList(
+                stream: _amplitudeStream,
+                barBuilder: (animation, amplitude) => WaveFormBar(
+                  animation: animation,
+                  amplitude: amplitude,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

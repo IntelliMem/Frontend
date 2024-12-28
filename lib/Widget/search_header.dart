@@ -4,14 +4,14 @@ import 'package:imagine_cup/Widget/search_bar_with_voice_widget.dart';
 import '../controller/mic_controller.dart';
 import 'listening_visualizer_widget.dart';
 
-class SearchHeadWidget extends StatefulWidget {
-  const SearchHeadWidget({super.key});
+class SearchHeader extends StatefulWidget {
+  const SearchHeader({super.key});
 
   @override
-  State<SearchHeadWidget> createState() => _SearchHeadWidgetState();
+  State<SearchHeader> createState() => _SearchHeaderState();
 }
 
-class _SearchHeadWidgetState extends State<SearchHeadWidget> {
+class _SearchHeaderState extends State<SearchHeader> {
   bool _isMicActive = false;
   String _text = "";
 
