@@ -20,7 +20,7 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   void deleteItem(TodoItem item) {
     setState(() {
-      widget.list.remove(item); // 리스트에서 해당 항목 제거
+      widget.list.remove(item);
     });
   }
 

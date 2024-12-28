@@ -9,6 +9,7 @@ class TodoListWidget extends StatelessWidget {
   final DateTime timestamp;
   final int version;
   final VoidCallback onDelete;
+
   const TodoListWidget({
     super.key,
     required this.work,

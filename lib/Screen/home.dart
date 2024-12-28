@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imagine_cup/Screen/add_memo_screen.dart';
 import 'package:imagine_cup/Screen/calendar_screen.dart';
 import 'package:imagine_cup/Screen/search_screen.dart';
 import 'package:imagine_cup/Screen/todo_screen.dart';
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
 
     pages = <Widget>[
       TodoScreen(userId: widget.userId),
-      SearchScreen(userId: widget.userId),
+      AddMemoScreen(userId: widget.userId),
       SearchScreen(userId: widget.userId),
       CalendarScreen(userId: widget.userId),
       SearchScreen(userId: widget.userId),
@@ -96,12 +97,11 @@ class _HomeState extends State<Home> {
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_turned_in), label: 'todo'),
+              icon: Icon(Icons.event_available), label: 'todo'),
           BottomNavigationBarItem(
               icon: Icon(Icons.add_circle), label: 'add memo'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month), label: 'calendar'),
+          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'calendar'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'setting'),
         ],
         currentIndex: _selectedIndex,
