@@ -2,7 +2,7 @@
 import 'package:speech_to_text/speech_to_text.dart';
 
 class MicController {
-  static final MicController _instance = MicController._internal();
+  static final MicController _instance = MicController._privateConstructor();
   final SpeechToText _speechToText = SpeechToText();
   bool _isInitialized = false;
   bool _isListening = false;
@@ -12,7 +12,7 @@ class MicController {
     return _instance;
   }
 
-  MicController._internal();
+  MicController._privateConstructor();
 
   Future<void> initializeTts() async {
     if (!_isInitialized) {

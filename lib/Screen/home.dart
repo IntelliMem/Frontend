@@ -22,17 +22,10 @@ class _HomeState extends State<Home> {
     pages = <Widget>[
       SearchScreen(userId: "userID"),
       SearchScreen(userId: "userID"),
-      _buildPageWithBackground(const Color(0xffF8F8F8), SearchScreen(userId: "userID")),
+      SearchScreen(userId: "userID"),
       SearchScreen(userId: "userID"),
       SearchScreen(userId: "userID"),
     ];
-  }
-
-  Widget _buildPageWithBackground(Color backgroundColor, Widget child) {
-    return Container(
-      color: backgroundColor,
-      child: child,
-    );
   }
 
   void _onItemTapped(int index) {
