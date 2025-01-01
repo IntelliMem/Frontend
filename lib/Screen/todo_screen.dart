@@ -7,6 +7,7 @@ import 'package:imagine_cup/Widget/todo/todo_item.dart';
 import 'package:imagine_cup/Widget/todo/todo_list.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:imagine_cup/controller/calendar_controller.dart';
 
 class TodoScreen extends StatefulWidget {
   String userId;
@@ -17,72 +18,107 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-  List<TodoItem> list = [
-    TodoItem(
-        work: 'Fix unit tests1',
-        timestamp: DateTime.now().subtract(Duration(days: 1))),
-    TodoItem(
-        work: 'Call Mike regarding quote2',
-        timestamp: DateTime.now().subtract(Duration(hours: 2))),
-    TodoItem(
-        work: 'Fix unit tests3',
-        timestamp: DateTime.now().subtract(Duration(days: 3))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-  ];
+  final CalendarController _calendarController = CalendarController();
+  final GlobalKey<TodoListState> todoListKey = GlobalKey<TodoListState>();
 
-  List<TodoItem> addList = [
-    TodoItem(
-        work: 'Fix unit tests5',
-        timestamp: DateTime.now().subtract(Duration(hours: 4))),
-    TodoItem(
-        work: 'Call Mike regarding quote6',
-        timestamp: DateTime.now().subtract(Duration(days: 2))),
+  List<NewItem> addList = [
+    NewItem(
+      userId: 1,
+      task: "Complete Flutter project",
+      time: DateTime.parse("2025-01-01T12:00:00Z"),
+    ),
+    NewItem(
+      userId: 1,
+      task: "Attend team meeting",
+      time: DateTime.parse("2025-01-02T14:30:00Z"),
+    ),
+    NewItem(
+      userId: 1,
+      task: "Write unit tests for app",
+      time: DateTime.parse("2025-01-03T09:00:00Z"),
+    ),
   ];
 
   late TextEditingController controller = TextEditingController();
 
-  // List<TodoItem> list = [];
-  // int id = 1;
-  // Future<void> fetchTodoList() async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse('${dotenv.env['API_URL']}/api/v1/todo?userId=$id'),
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       List<dynamic> data = jsonDecode(response.body);
-  //       print('Fetched data: $data');
-
-  //       setState(() {
-  //         list = data.map((item) => TodoItem.fromJson(item)).toList();
-  //       });
-  //     } else {
-  //       throw Exception('Failed to load todos');
-  //     }
-  //   } catch (e) {
-  //     print('Error while fetching todos: $e');
-  //   }
-  // }
-
-  void deleteItem(TodoItem item) {
+  List<TodoItem> list = [];
+  int id = 1;
+  Future<void> fetchTodoList() async {
+    final fetchedList = await _calendarController.fetchTodoList(id);
     setState(() {
-      addList.removeWhere(
-          (todo) => todo.work == item.work && todo.timestamp == item.timestamp);
+      list = fetchedList;
     });
   }
 
-  void addItem(TodoItem item) {
+  void deleteItem(NewItem item) {
     setState(() {
-      list.add(item);
+      addList.removeWhere((todo) => todo.task == item.task);
     });
+  }
+
+  Future<void> deleteFromList(TodoItem item) async {
+    int id = item.id;
+    try {
+      final response = await http
+          .delete(Uri.parse('${dotenv.env['API_URL']}/api/v1/todo?todoId=$id'));
+
+      print(response);
+      if (response.statusCode == 200) {
+        await fetchTodoList();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete item')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
+
+  // void deleteFromList(TodoItem item) async {
+  //   setState(() {
+  //     list.removeWhere((todo) => todo.id == item.id);
+  //   });
+  //   await fetchTodoList();
+  // }
+
+  void addItem(NewItem item) async {
+    try {
+      Map<String, dynamic> newItemData = {
+        'userId': item.userId,
+        'task': item.task,
+        'time': item.time?.toIso8601String(),
+      };
+
+      final response = await http.post(
+        Uri.parse('${dotenv.env['API_URL']}/api/v1/todo'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(newItemData),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Todo item added successfully')),
+        );
+        fetchTodoList();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to add item')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    // fetchTodoList();
+    fetchTodoList();
   }
 
   @override
@@ -99,16 +135,17 @@ class _TodoScreenState extends State<TodoScreen> {
             Column(
               children: addList.map((item) {
                 return AddTodoList(
-                  work: item.work,
-                  timestamp: item.timestamp,
+                  item: item,
                   onDelete: deleteItem,
                   onAdd: addItem,
                 );
               }).toList(),
             ),
             TodoList(
+              key: todoListKey,
               userId: widget.userId,
               list: list,
+              deleteItem: deleteFromList,
             ),
           ],
         ),

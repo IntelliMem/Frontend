@@ -49,11 +49,12 @@ class DialogHelper {
                   child: ListView.builder(
                     itemCount: list.length,
                     itemBuilder: (context, index) {
-                      String timeFormatted =
-                          DateFormat('HH:mm').format(list[index].timestamp);
+                      String timeFormatted = list[index].time != null
+                          ? DateFormat('HH:mm').format(list[index].time!)
+                          : "";
                       return ListTile(
                         title: Text(
-                          list[index].work,
+                          list[index].task,
                           style: TextStyle(
                               color: Color(0xff267F5C),
                               fontWeight: FontWeight.bold),

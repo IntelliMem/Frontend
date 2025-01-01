@@ -8,21 +8,24 @@ import 'package:imagine_cup/util.dart';
 class TodoList extends StatefulWidget {
   String userId;
   List<TodoItem> list;
+  final Function(TodoItem) deleteItem;
 
-  TodoList({super.key, required this.userId, required this.list});
+  TodoList({
+    super.key,
+    required this.userId,
+    required this.list,
+    required this.deleteItem,
+  });
 
   final double _containerWidth = Util.getWidgetSize(8 / 9);
 
   @override
-  State<TodoList> createState() => _TodoListState();
+  State<TodoList> createState() => TodoListState();
 }
 
-class _TodoListState extends State<TodoList> {
-  void deleteItem(TodoItem item) {
-    setState(() {
-      widget.list.remove(item);
-    });
-  }
+class TodoListState extends State<TodoList> {
+  final GlobalKey<TodoListWidgetState> todoListKey =
+      GlobalKey<TodoListWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +49,23 @@ class _TodoListState extends State<TodoList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TodoListCount(count: widget.list.length),
-          ...widget.list.asMap().entries.map((entry) {
-            int index = entry.key;
-            TodoItem todoItem = entry.value;
-            int version = index % 2;
-            return TodoListWidget(
-              work: todoItem.work,
-              version: version,
-              timestamp: todoItem.timestamp,
-              onDelete: () => deleteItem(todoItem),
-            );
-          }).toList(),
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: widget.list.length,
+              itemBuilder: (context, index) {
+                final todoItem = widget.list[index];
+                final version = index % 2;
+
+                return TodoListWidget(
+                  key: todoListKey,
+                  item: todoItem,
+                  version: version,
+                  onDelete: () => widget.deleteItem(todoItem),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

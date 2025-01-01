@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:imagine_cup/Widget/calendar/calendar_dialog.dart';
 import 'package:imagine_cup/Widget/calendar/calendar_list.dart';
 import 'package:imagine_cup/Widget/calendar/calendar_widget.dart';
 import 'package:imagine_cup/Widget/todo/todo_item.dart';
+import 'package:imagine_cup/controller/calendar_controller.dart';
 import 'package:imagine_cup/util.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 class CalendarScreen extends StatefulWidget {
   final String userId;
@@ -16,51 +22,38 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  final CalendarController _calendarController = CalendarController();
   DateTime timestamp = DateTime.now();
 
-  List<TodoItem> list = [
-    TodoItem(
-        work:
-            'Fix unit tests1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        timestamp: DateTime.now().subtract(Duration(days: 1))),
-    TodoItem(
-        work: 'Call Mike regarding quote2',
-        timestamp: DateTime.now().subtract(Duration(hours: 2))),
-    TodoItem(
-        work: 'Fix unit tests3',
-        timestamp: DateTime.now().subtract(Duration(days: 3))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-    TodoItem(
-        work: 'Call Mike regarding quote4',
-        timestamp: DateTime.now().subtract(Duration(minutes: 30))),
-  ];
+  List<TodoItem> list = [];
+  int id = 1;
+  String selectedDate = "";
+
+  Future<void> fetchCalendarList() async {
+    final todos = await _calendarController.fetchCalendarList(id, selectedDate);
+    setState(() {
+      list = todos;
+    });
+  }
+
+  Future<void> fetchTodoList() async {
+    final fetchedList = await _calendarController.fetchTodoList(id);
+    setState(() {
+      list = fetchedList;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchTodoList();
+  }
 
   void _updateSelectedDate(DateTime date) {
     setState(() {
       timestamp = date;
+      selectedDate = DateFormat('yyyy-MM-dd').format(date);
+      fetchCalendarList();
     });
   }
 

@@ -6,14 +6,12 @@ import 'package:imagine_cup/util.dart';
 import 'package:intl/intl.dart';
 
 class AddTodoList extends StatelessWidget {
-  final String work;
-  final DateTime timestamp;
-  final Function(TodoItem) onDelete;
-  final Function(TodoItem) onAdd;
+  final NewItem item;
+  final Function(NewItem) onDelete;
+  final Function(NewItem) onAdd;
   AddTodoList(
       {super.key,
-      required this.work,
-      required this.timestamp,
+      required this.item,
       required this.onDelete,
       required this.onAdd});
 
@@ -21,7 +19,8 @@ class AddTodoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formattedTime = DateFormat('HH:mm').format(timestamp);
+    String formattedTime =
+        item.time != null ? DateFormat('HH:mm').format(item.time!) : "";
 
     return Container(
       width: _containerWidth,
@@ -52,7 +51,7 @@ class AddTodoList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      work,
+                      item.task,
                       style: TextStyle(
                         color: Color(0xff008652),
                       ),
@@ -73,8 +72,8 @@ class AddTodoList extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      onAdd(TodoItem(work: work, timestamp: timestamp));
-                      onDelete(TodoItem(work: work, timestamp: timestamp));
+                      onAdd(item);
+                      onDelete(item);
                     },
                     child: Icon(
                       Icons.arrow_downward,
@@ -84,7 +83,7 @@ class AddTodoList extends StatelessWidget {
                   SizedBox(width: 8),
                   InkWell(
                     onTap: () {
-                      onDelete(TodoItem(work: work, timestamp: timestamp));
+                      onDelete(item);
                     },
                     child: Icon(
                       Icons.close,

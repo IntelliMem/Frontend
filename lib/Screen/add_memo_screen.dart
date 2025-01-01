@@ -26,7 +26,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
           Description(),
           MemoInput(controller: controller),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
+            padding: const EdgeInsets.fromLTRB(0, 10, 20, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

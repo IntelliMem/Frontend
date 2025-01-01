@@ -11,23 +11,17 @@ class CalendarWork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formattedTime = DateFormat('HH:mm').format(item.timestamp);
+    String formattedTime =
+        item.time != null ? DateFormat('HH:mm').format(item.time!) : "";
     return Container(
       width: _containerWidth2,
       padding: EdgeInsets.fromLTRB(20, 5, 10, 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            formattedTime,
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            width: 30,
-          ),
           Expanded(
             child: Text(
-              item.work,
+              item.task,
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
@@ -36,6 +30,10 @@ class CalendarWork extends StatelessWidget {
               softWrap: true,
               overflow: TextOverflow.visible,
             ),
+          ),
+          Text(
+            formattedTime,
+            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
           ),
         ],
       ),
