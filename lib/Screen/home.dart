@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:imagine_cup/Screen/add_memo_screen.dart';
+import 'package:imagine_cup/Screen/calendar_screen.dart';
 import 'package:imagine_cup/Screen/search_screen.dart';
+import 'package:imagine_cup/Screen/todo_screen.dart';
 
 class Home extends StatefulWidget {
   final int pageIndex;
@@ -20,11 +23,11 @@ class _HomeState extends State<Home> {
     _selectedIndex = widget.pageIndex;
 
     pages = <Widget>[
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
-      SearchScreen(userId: "userID"),
+      TodoScreen(userId: widget.userId),
+      AddMemoScreen(userId: widget.userId),
+      SearchScreen(userId: widget.userId),
+      CalendarScreen(userId: widget.userId),
+      SearchScreen(userId: widget.userId),
     ];
   }
 
@@ -37,6 +40,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffF9F9F9),
       body: pages[_selectedIndex],
       drawer: Drawer(
         child: ListView(
@@ -86,19 +90,18 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xffF9F9F9),
         selectedItemColor: const Color(0xff469D7B),
         unselectedItemColor: const Color(0xff757575),
         showSelectedLabels: true,
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_turned_in), label: 'todo'),
+              icon: Icon(Icons.event_available), label: 'todo'),
           BottomNavigationBarItem(
               icon: Icon(Icons.add_circle), label: 'add memo'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month), label: 'calendar'),
+          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'calendar'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'setting'),
         ],
         currentIndex: _selectedIndex,
