@@ -5,8 +5,13 @@ import 'mic_widget.dart';
 class SearchHeadWidget extends StatelessWidget {
   final String label;
   final TextEditingController controller;
-  const SearchHeadWidget(
-      {super.key, required this.label, required this.controller});
+  final Function onSubmitted;
+  const SearchHeadWidget({
+    super.key,
+    required this.label,
+    required this.controller,
+    required this.onSubmitted,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +48,9 @@ class SearchHeadWidget extends StatelessWidget {
                     width: 200.w,
                     child: TextField(
                       controller: controller,
+                      onSubmitted: (value) {
+                        onSubmitted(value);
+                      },
                       decoration: InputDecoration(
                           hintText: 'input text',
                           hintStyle: TextStyle(

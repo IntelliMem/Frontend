@@ -40,7 +40,7 @@ class NewItem {
   factory NewItem.fromJson(Map<String, dynamic> json) {
     return NewItem(
       userId: json['userId'],
-      task: json['task'],
+      task: json['task'] ?? '', // task는 항상 기본값을 반환하도록 처리
       time: json['time'] != null && json['time'].isNotEmpty
           ? DateTime.parse(json['time'])
           : null,

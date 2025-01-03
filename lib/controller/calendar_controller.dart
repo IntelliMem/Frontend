@@ -24,6 +24,45 @@ class CalendarController {
     }
   }
 
+  Future<List<NewItem>> sendAndFetchAddList(String voiceInput, int id) async {
+    try {
+      final Map<String, dynamic> requestData = {
+        'voiceInput': voiceInput,
+      };
+
+      final response = await http.post(
+        Uri.parse('${dotenv.env['API_URL']}/api/v1/openai'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(requestData),
+      );
+
+      final responseBody = response.body;
+      final cleanedResponse =
+          responseBody.replaceAll(RegExp(r"```json|```"), '').trim();
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(cleanedResponse);
+
+        return data.map((json) {
+          String task = json['task'] ?? '';
+          String timeStr = json['time'] ?? '';
+          DateTime? time = timeStr.isNotEmpty ? DateTime.parse(timeStr) : null;
+
+          return NewItem(
+            userId: id,
+            task: task,
+            time: time,
+          );
+        }).toList();
+      } else {
+        throw Exception('Failed to fetch data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
   Future<List<TodoItem>> fetchTodoList(int userId) async {
     try {
       final response = await http.get(

@@ -24,9 +24,6 @@ class TodoList extends StatefulWidget {
 }
 
 class TodoListState extends State<TodoList> {
-  final GlobalKey<TodoListWidgetState> todoListKey =
-      GlobalKey<TodoListWidgetState>();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,7 +55,6 @@ class TodoListState extends State<TodoList> {
                 final version = index % 2;
 
                 return TodoListWidget(
-                  key: todoListKey,
                   item: todoItem,
                   version: version,
                   onDelete: () => widget.deleteItem(todoItem),

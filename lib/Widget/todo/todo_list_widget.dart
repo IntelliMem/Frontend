@@ -133,14 +133,6 @@ class _WorkComponentState extends State<WorkComponent> {
 
         return GestureDetector(
           onLongPress: () {
-            setState(() {
-              isPressed = true;
-            });
-          },
-          onLongPressEnd: (_) {
-            setState(() {
-              isPressed = false;
-            });
             widget.onDelete();
           },
           child: Container(
