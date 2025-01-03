@@ -8,12 +8,14 @@ class SearchHeader extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final Function onSubmitted;
+  final Function(String) getVoiceInput;
   const SearchHeader({
     super.key,
     required this.label,
     required this.controller,
     required this.onSubmitted,
-  }) ;
+    required this.getVoiceInput,
+  });
 
   @override
   State<SearchHeader> createState() => _SearchHeaderState();
@@ -28,6 +30,7 @@ class _SearchHeaderState extends State<SearchHeader> {
     super.initState();
     _initializeMicController();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -56,10 +59,10 @@ class _SearchHeaderState extends State<SearchHeader> {
 
   void _stopListening() {
     _text = MicController().stopListening();
+    widget.getVoiceInput(_text);
   }
 
   String get text => _text;
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,52 +88,54 @@ class _SearchHeaderState extends State<SearchHeader> {
               )
             ],
           ),
-          _isMicActive ?  ListeningVisualizerWidget(onStop: _toggleMic) :
-          Container(
-            margin: EdgeInsets.only(bottom: 15.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    margin: EdgeInsets.only(right: 30.w),
-                    height: 40.h,
-                    width: 200.w,
-                    child: TextField(
-                      controller: widget.controller,
-                      onSubmitted: (value) {
-                        widget.onSubmitted(value);
-                      },
-                      decoration: InputDecoration(
-                          hintText: 'input text',
-                          hintStyle: TextStyle(
-                            color: Colors.white.withValues(
-                              red: 255,
-                              green: 255,
-                              blue: 255,
-                              alpha: 0.3,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          focusedBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                              ))),
-                      keyboardType: TextInputType.name,
-                    )),
-                MicWidget(isListening: _isMicActive, onMicTap: _toggleMic),
-              ],
-            ),
-          )
+          _isMicActive
+              ? ListeningVisualizerWidget(onStop: _toggleMic)
+              : Container(
+                  margin: EdgeInsets.only(bottom: 15.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(right: 30.w),
+                          height: 40.h,
+                          width: 200.w,
+                          child: TextField(
+                            controller: widget.controller,
+                            onSubmitted: (value) {
+                              widget.onSubmitted(value);
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'input text',
+                                hintStyle: TextStyle(
+                                  color: Colors.white.withValues(
+                                    red: 255,
+                                    green: 255,
+                                    blue: 255,
+                                    alpha: 0.3,
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide:
+                                      BorderSide(width: 1, color: Colors.white),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ))),
+                            keyboardType: TextInputType.name,
+                          )),
+                      MicWidget(
+                          isListening: _isMicActive, onMicTap: _toggleMic),
+                    ],
+                  ),
+                )
         ],
       ),
     );

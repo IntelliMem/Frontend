@@ -17,6 +17,7 @@ class SearchScreen extends StatelessWidget {
           label: 'Search',
           controller: controller,
           onSubmitted: () {},
+          getVoiceInput: (String) {},
         ),
         Expanded(
           child: SingleChildScrollView(

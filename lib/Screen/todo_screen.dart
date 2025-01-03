@@ -32,9 +32,8 @@ class _TodoScreenState extends State<TodoScreen> {
   }
 
   List<NewItem> addList = [];
-  Future<void> sendAndFetchAddList() async {
-    final fetchedList =
-        await _calendarController.sendAndFetchAddList(controller.text, id);
+  Future<void> sendAndFetchAddList(String text) async {
+    final fetchedList = await _calendarController.sendAndFetchAddList(text, id);
     setState(() {
       addList = fetchedList;
     });
@@ -123,8 +122,11 @@ class _TodoScreenState extends State<TodoScreen> {
               label: 'TO DO',
               controller: controller,
               onSubmitted: (value) {
-                sendAndFetchAddList();
+                sendAndFetchAddList(value);
                 controller.clear();
+              },
+              getVoiceInput: (text) {
+                sendAndFetchAddList(text);
               },
             ),
             Column(
