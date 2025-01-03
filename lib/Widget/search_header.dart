@@ -3,7 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'mic_widget.dart';
 
 class SearchHeadWidget extends StatelessWidget {
-  const SearchHeadWidget({super.key});
+  final String label;
+  final TextEditingController controller;
+  final Function onSubmitted;
+  const SearchHeadWidget({
+    super.key,
+    required this.label,
+    required this.controller,
+    required this.onSubmitted,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +20,15 @@ class SearchHeadWidget extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20.h),
       color: const Color(0xff469D7B),
       child: Column(
-        mainAxisSize: MainAxisSize.min,  // min 설정을 통해서 overflow 막음
+        mainAxisSize: MainAxisSize.min, // min 설정을 통해서 overflow 막음
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top:0.h,left: 20.w, bottom: 20.h),
+                margin: EdgeInsets.only(top: 0.h, left: 20.w, bottom: 20.h),
                 child: Text(
-                  'Search',
+                  label,
                   style: TextStyle(
                       fontSize: 30.sp,
                       fontWeight: FontWeight.w700,
@@ -35,15 +43,41 @@ class SearchHeadWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: 30.w),
-                  height: 40.h,
-                  width: 200.w,
-                  child: DecoratedBox(
-                      decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7.r),
-                    color: Colors.white,
-                  )),
-                ),
+                    margin: EdgeInsets.only(right: 30.w),
+                    height: 40.h,
+                    width: 200.w,
+                    child: TextField(
+                      controller: controller,
+                      onSubmitted: (value) {
+                        onSubmitted(value);
+                      },
+                      decoration: InputDecoration(
+                          hintText: 'input text',
+                          hintStyle: TextStyle(
+                            color: Colors.white.withValues(
+                              red: 255,
+                              green: 255,
+                              blue: 255,
+                              alpha: 0.3,
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.white),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ))),
+                      keyboardType: TextInputType.name,
+                    )),
                 MicWidget()
               ],
             ),

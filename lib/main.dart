@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:imagine_cup/Screen/category_screen.dart';
 import 'package:imagine_cup/Screen/home.dart';
 import 'package:imagine_cup/Screen/memo_screen.dart';
 import 'package:imagine_cup/Screen/search_screen.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
+
   runApp(const MyApp(
     userId: 'userID',
   ));
