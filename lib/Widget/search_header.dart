@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:imagine_cup/Widget/search_bar_with_voice_widget.dart';
 import '../controller/mic_controller.dart';
 import 'listening_visualizer_widget.dart';
+import 'mic_widget.dart';
 
 class SearchHeader extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final Function onSubmitted;
-  const SearchHeadWidget({
+  const SearchHeader({
     super.key,
     required this.label,
     required this.controller,
     required this.onSubmitted,
-  });
+  }) ;
 
   @override
   State<SearchHeader> createState() => _SearchHeaderState();
@@ -51,11 +51,14 @@ class _SearchHeaderState extends State<SearchHeader> {
 
   void _startListening() {
     MicController().startListening();
+    print(_isMicActive);
   }
 
   void _stopListening() {
     _text = MicController().stopListening();
   }
+
+  String get text => _text;
 
 
   @override
@@ -73,7 +76,7 @@ class _SearchHeaderState extends State<SearchHeader> {
               Container(
                 margin: EdgeInsets.only(top: 0.h, left: 20.w, bottom: 20.h),
                 child: Text(
-                  label,
+                  widget.label,
                   style: TextStyle(
                       fontSize: 30.sp,
                       fontWeight: FontWeight.w700,
@@ -82,8 +85,7 @@ class _SearchHeaderState extends State<SearchHeader> {
               )
             ],
           ),
-          _isMicActive ?  ListeningVisualizerWidget(onStop: _toggleMic) : 
-//           SearchBarWithVoiceWidget(onPressed: _toggleMic),
+          _isMicActive ?  ListeningVisualizerWidget(onStop: _toggleMic) :
           Container(
             margin: EdgeInsets.only(bottom: 15.h),
             child: Row(
@@ -94,9 +96,9 @@ class _SearchHeaderState extends State<SearchHeader> {
                     height: 40.h,
                     width: 200.w,
                     child: TextField(
-                      controller: controller,
+                      controller: widget.controller,
                       onSubmitted: (value) {
-                        onSubmitted(value);
+                        widget.onSubmitted(value);
                       },
                       decoration: InputDecoration(
                           hintText: 'input text',
@@ -125,7 +127,7 @@ class _SearchHeaderState extends State<SearchHeader> {
                               ))),
                       keyboardType: TextInputType.name,
                     )),
-                MicWidget()
+                MicWidget(isListening: _isMicActive, onMicTap: _toggleMic),
               ],
             ),
           )

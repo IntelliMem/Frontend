@@ -21,9 +21,9 @@ class MicWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Padding(
-          padding: _isStartListening? EdgeInsets.all(5.w) : EdgeInsets.all(10.w),
+          padding: _isStartListening? EdgeInsets.all(10.w) : EdgeInsets.all(5.w),
           child: Image.asset(
-            _isStartListening ? 'assets/MicIcon.png' :'assets/StopIcon.png' ,
+            _isStartListening ? 'assets/StopIcon.png' :'assets/MicIcon.png' ,
             fit: BoxFit.contain,
           ),
         ),

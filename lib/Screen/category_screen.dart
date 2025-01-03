@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:imagine_cup/Widget/green_header.dart';
-import 'package:imagine_cup/Widget/me_header.dart';
-import 'package:imagine_cup/Widget/memo_list_widget.dart';
-import '../Widget/edit_profile_dialog.dart';
+import 'package:imagine_cup/Widget/search/green_header.dart';
+import 'package:imagine_cup/Widget/search/me_header.dart';
+import 'package:imagine_cup/Widget/search/memo_list_widget.dart';
+import '../Widget/search/edit_profile_dialog.dart';
 
 class CategoryScreen extends StatefulWidget {
   final String _category;

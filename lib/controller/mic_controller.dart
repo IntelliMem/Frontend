@@ -21,16 +21,17 @@ class MicController {
   }
 
   void startListening() {
-    if (_isInitialized && !_isListening){
-      _isListening=true;
-      _recognizedText="";
+    if (_isInitialized && !_isListening) {
+      _isListening = true;
+      _recognizedText = "";
       _speechToText.listen(
         onResult: (result) {
-          _recognizedText+=result.recognizedWords;
+          _recognizedText = result.recognizedWords;
         },
       );
     }
   }
+
 
   String stopListening() {
     if (_isInitialized && _isListening) {

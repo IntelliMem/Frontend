@@ -45,7 +45,7 @@ class _ListeningVisualizerWidgetState extends State<ListeningVisualizerWidget> {
           margin: EdgeInsets.only(bottom: 10.h),
           child: MicWidget(
             onMicTap: widget.onStop,
-            isListening: false,
+            isListening: true,
           ),
         ),
         Transform.rotate(

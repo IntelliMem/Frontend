@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../Screen/memo_screen.dart';
-import '../util.dart';
+import '../../Screen/memo_screen.dart';
+import '../../util.dart';
 
 class MemoListWidget extends StatelessWidget {
   final String _title;

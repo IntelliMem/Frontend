@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../Screen/category_screen.dart';
-import '../util.dart';
+import '../../Screen/category_screen.dart';
+import '../../util.dart';
 
 class CategoryWidget extends StatelessWidget {
   final Color _color;

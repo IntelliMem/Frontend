@@ -30,7 +30,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                MicWidget(),
+                // MicWidget(isListening: ,),
                 const SizedBox(width: 10),
                 ImageWidget(),
               ],

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:imagine_cup/Widget/search_header.dart';
-import '../Widget/category_widget.dart';
+import '../Widget/search/category_widget.dart';
 
 class SearchScreen extends StatelessWidget {
   final String _userId;
@@ -13,7 +13,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchHeadWidget(
+        SearchHeader(
           label: 'Search',
           controller: controller,
           onSubmitted: () {},
