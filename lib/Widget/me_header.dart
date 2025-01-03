@@ -4,48 +4,40 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../util.dart';
 
 class MeHeader extends StatelessWidget {
-  MeHeader({super.key});
+  // 사용자 정보 받아서 사용
+  final String _name;
+  final String _birth;
+  final String _phoneNumber;
+
+  MeHeader(
+      {super.key,
+      required String name,
+      required String birth,
+      required String phoneNumber}):
+        _name = name,
+        _birth = birth,
+        _phoneNumber = phoneNumber;
 
   final double _radiusSize = Util.getWidgetSize(1 / 4);
-
-  // 사용자 정보 받아서 사용
-  final String _name = "Me";
-  final String _birth = "2000.01.01";
-  final String _phoneNumber = "010-1234-5678";
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          color: const Color(0xff469D7B),
-          height: 26.h,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.only(right: 5.w, bottom: 3.h),
-                child: Image.asset("assets/EditIcon.png"),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 20.h, bottom: 10.h), // 변경: bottom 값 줄임
+          padding: EdgeInsets.only(top: 20.h, bottom: 10.h),
           decoration: const BoxDecoration(
             color: Colors.white,
           ),
           clipBehavior: Clip.hardEdge,
           child: Column(
-            // Stack + Text 모두 포함
             children: [
               Stack(
                 clipBehavior: Clip.hardEdge,
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: Container(
+                    child: SizedBox(
                       width: 300.w,
                       height: 80.h,
                       child: Image.asset(

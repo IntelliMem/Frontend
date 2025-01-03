@@ -7,7 +7,6 @@ class SearchScreen extends StatelessWidget {
   final String _userId;
 
   SearchScreen({super.key, required String userId}) : _userId = userId;
-
   late TextEditingController controller = TextEditingController();
 
   @override

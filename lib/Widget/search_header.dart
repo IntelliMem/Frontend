@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'mic_widget.dart';
+import 'package:imagine_cup/Widget/search_bar_with_voice_widget.dart';
+import '../controller/mic_controller.dart';
+import 'listening_visualizer_widget.dart';
 
-class SearchHeadWidget extends StatelessWidget {
+class SearchHeader extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final Function onSubmitted;
@@ -12,6 +14,49 @@ class SearchHeadWidget extends StatelessWidget {
     required this.controller,
     required this.onSubmitted,
   });
+
+  @override
+  State<SearchHeader> createState() => _SearchHeaderState();
+}
+
+class _SearchHeaderState extends State<SearchHeader> {
+  bool _isMicActive = false;
+  String _text = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeMicController();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> _initializeMicController() async {
+    await MicController().initializeTts();
+  }
+
+  void _toggleMic() {
+    setState(() {
+      _isMicActive = !_isMicActive;
+    });
+
+    if (_isMicActive) {
+      _startListening();
+    } else {
+      _stopListening();
+    }
+  }
+
+  void _startListening() {
+    MicController().startListening();
+  }
+
+  void _stopListening() {
+    _text = MicController().stopListening();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +82,8 @@ class SearchHeadWidget extends StatelessWidget {
               )
             ],
           ),
+          _isMicActive ?  ListeningVisualizerWidget(onStop: _toggleMic) : 
+//           SearchBarWithVoiceWidget(onPressed: _toggleMic),
           Container(
             margin: EdgeInsets.only(bottom: 15.h),
             child: Row(
